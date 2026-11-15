@@ -241,7 +241,6 @@
     }
 
     /* ===== КАРТИННЫЕ РАМЫ С МАЛЕНЬКИМИ ПЕРЕЛИВАЮЩИМИСЯ ЛАМПОЧКАМИ ПО ПЕРИМЕТРУ ===== */
-    /* Внутренние блоки .host-media-placeholder в секции «Ведущие» и «Кавер-группа» исключены */
     .envelope-photo-scene::before,
     .time-block::before,
     .event-info-item::before,
@@ -253,7 +252,8 @@
     .category-card::before,
     .voting-block::before,
     .rsvp-form-block::before,
-    .ticket-block::before {
+    .ticket-block::before,
+    .consent-modal-card::before {
       content: '';
       position: absolute;
       inset: 0;
@@ -770,7 +770,8 @@
     .voting-block,
     .rsvp-form-block,
     .ticket-block,
-    .invitation-text {
+    .invitation-text,
+    .consent-modal-card {
       background: linear-gradient(
         145deg,
         rgba(22, 14, 19, 0.88) 0%,
@@ -1088,29 +1089,6 @@
       z-index: 2;
     }
 
-    .host-media-placeholder {
-      aspect-ratio: 16 / 10;
-      background: linear-gradient(135deg, rgba(16, 10, 14, 0.55), rgba(38, 12, 18, 0.35));
-      border: none;
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--gold-light);
-      font-family: var(--font-30s);
-      font-size: 16px;
-      letter-spacing: 2px;
-      margin-bottom: 14px;
-      padding: 20px;
-      text-align: center;
-      position: relative;
-      z-index: 2;
-    }
-
-    .host-media-placeholder:last-child {
-      margin-bottom: 0;
-    }
-
     .host-photo,
     .host-video {
       width: 100%;
@@ -1417,14 +1395,147 @@
       cursor: pointer;
     }
 
-    .consent-placeholder {
-      display: block;
-      font-family: var(--font-30s);
+    .consent-link-btn {
+      background: none;
+      border: none;
+      padding: 0;
       color: var(--gold-light);
-      font-size: 14px;
-      margin-top: 6px;
-      opacity: 0.85;
-      letter-spacing: 1.2px;
+      font-family: var(--font-30s);
+      font-size: inherit;
+      letter-spacing: inherit;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      cursor: pointer;
+      -webkit-text-stroke: 0.45px var(--gold-light);
+      transition: color 0.25s ease, text-shadow 0.25s ease;
+    }
+
+    .consent-link-btn:hover,
+    .consent-link-btn:focus-visible {
+      color: var(--gold-bright);
+      text-shadow: 0 0 12px rgba(243, 220, 153, 0.65);
+      outline: none;
+    }
+
+    /* ===== МОДАЛЬНОЕ ОКНО СОГЛАСИЯ НА ОБРАБОТКУ ПЕРСОНАЛЬНЫХ ДАННЫХ ===== */
+    .consent-modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1100;
+      background: rgba(5, 3, 7, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.35s ease, visibility 0.35s ease;
+    }
+
+    .consent-modal-overlay.open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .consent-modal-card {
+      width: min(680px, 94vw);
+      max-height: 86vh;
+      border-radius: 4px;
+      padding: 36px 30px 30px;
+      display: flex;
+      flex-direction: column;
+      transform: translateY(16px) scale(0.98);
+      transition: transform 0.35s ease;
+    }
+
+    .consent-modal-overlay.open .consent-modal-card {
+      transform: translateY(0) scale(1);
+    }
+
+    .consent-modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+      position: relative;
+      z-index: 2;
+    }
+
+    .consent-modal-title {
+      font-family: var(--font-30s);
+      font-size: clamp(20px, 3vw, 26px);
+      color: var(--gold-light);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      -webkit-text-stroke: 0.55px var(--gold-light);
+      line-height: 1.3;
+    }
+
+    .consent-modal-close {
+      background: transparent;
+      border: 1px solid rgba(212, 175, 55, 0.45);
+      color: var(--gold-light);
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      font-size: 22px;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.25s ease;
+    }
+
+    .consent-modal-close:hover,
+    .consent-modal-close:focus-visible {
+      background: var(--gold);
+      color: var(--bg-deep);
+      outline: none;
+    }
+
+    .consent-modal-body {
+      overflow-y: auto;
+      padding-right: 8px;
+      font-family: var(--font-30s);
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--cream);
+      letter-spacing: 1.1px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .consent-modal-body p {
+      margin-bottom: 14px;
+    }
+
+    .consent-modal-body ul {
+      margin: 8px 0 16px 20px;
+    }
+
+    .consent-modal-body li {
+      margin-bottom: 6px;
+    }
+
+    .consent-modal-footer {
+      margin-top: 20px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(212, 175, 55, 0.3);
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
     }
 
     .form-submit {
@@ -1463,7 +1574,7 @@
 
     /* ===== БИЛЕТ И РАССАДКА ===== */
     .ticket-block {
-      max-width: 540px;
+      max-width: 580px;
       margin: 0 auto;
       text-align: center;
       border-radius: 4px;
@@ -1492,6 +1603,78 @@
       letter-spacing: 1.5px;
       position: relative;
       z-index: 2;
+    }
+
+    /* Оформление выданного именного билета */
+    .issued-ticket {
+      position: relative;
+      z-index: 2;
+      padding: 8px 4px;
+    }
+
+    .issued-ticket-badge {
+      display: inline-block;
+      padding: 4px 16px;
+      border: 1px solid rgba(212, 175, 55, 0.5);
+      color: var(--gold-light);
+      font-size: 13px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      background: rgba(212, 175, 55, 0.1);
+    }
+
+    .issued-ticket-guest {
+      font-size: clamp(22px, 3.2vw, 30px);
+      color: var(--cream);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      -webkit-text-stroke: 0.6px var(--cream);
+      margin-bottom: 16px;
+    }
+
+    .issued-ticket-code-box {
+      margin: 18px auto;
+      padding: 18px 20px;
+      background: rgba(8, 5, 10, 0.85);
+      border: 1px dashed var(--gold);
+      border-radius: 4px;
+      max-width: 380px;
+    }
+
+    .issued-ticket-code-label {
+      display: block;
+      font-size: 13px;
+      color: var(--gold);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .issued-ticket-code-value {
+      display: block;
+      font-size: clamp(28px, 4.5vw, 38px);
+      color: var(--gold-bright);
+      letter-spacing: 6px;
+      -webkit-text-stroke: 0.9px var(--gold-bright);
+      text-shadow: 0 0 18px rgba(243, 220, 153, 0.55);
+    }
+
+    .issued-ticket-meta {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(212, 175, 55, 0.25);
+      font-size: 16px;
+      color: var(--cream-soft);
+      letter-spacing: 2px;
+      line-height: 1.6;
+    }
+
+    .copy-ticket-btn {
+      margin-top: 18px;
+      font-size: 14px;
+      padding: 10px 26px;
+      letter-spacing: 3px;
     }
 
     /* ===== УПРАВЛЕНИЕ МУЗЫКОЙ ===== */
@@ -1690,6 +1873,7 @@
       .envelope-hotspot { width: 78px; height: 78px; }
       .hotspot-label { font-size: 10px; letter-spacing: 1.5px; }
       .invitation-text { padding: 32px 24px; }
+      .consent-modal-card { padding: 26px 20px 22px; }
       .envelope-photo-scene::before,
       .time-block::before,
       .event-info-item::before,
@@ -1701,7 +1885,8 @@
       .category-card::before,
       .voting-block::before,
       .rsvp-form-block::before,
-      .ticket-block::before {
+      .ticket-block::before,
+      .consent-modal-card::before {
         border-width: 10px;
         border-image-width: 10px;
       }
@@ -1837,7 +2022,6 @@
         <span class="burlesque-marquee-wrap">
           <svg class="burlesque-marquee-svg" viewBox="0 0 920 265" role="img" aria-label="БУРЛЕСК">
             <defs>
-              <!-- Градиент золотой металлической оправы букв -->
               <linearGradient id="goldBevel" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stop-color="#fff6c7"/>
                 <stop offset="25%" stop-color="#ffd24c"/>
@@ -1846,14 +2030,12 @@
                 <stop offset="100%" stop-color="#875808"/>
               </linearGradient>
 
-              <!-- Градиент рубиново-красного 3D-корпуса букв -->
               <linearGradient id="rubyExtrude" x1="0%" y1="0%" x2="0%" y2="100%">
                 <stop offset="0%" stop-color="#d41920"/>
                 <stop offset="55%" stop-color="#9c0b11"/>
                 <stop offset="100%" stop-color="#4a0306"/>
               </linearGradient>
 
-              <!-- Базовая подложка приглушенных лампочек -->
               <pattern id="bulbPatternBase" x="0" y="0" width="9.5" height="9.5" patternUnits="userSpaceOnUse">
                 <rect width="9.5" height="9.5" fill="#9e5907"/>
                 <circle cx="4.75" cy="4.75" r="4.1" fill="#d98a12"/>
@@ -1861,11 +2043,8 @@
                 <circle cx="4.4" cy="4.4" r="1.3" fill="#fff5cc"/>
               </pattern>
 
-              <!-- Паттерн с поочередным «бегущим огнем» по лампочкам внутри букв -->
               <pattern id="bulbPatternChase" x="0" y="0" width="19" height="19" patternUnits="userSpaceOnUse">
                 <rect width="19" height="19" fill="#d98a12"/>
-
-                <!-- Лампочка 1 (фаза 0.0s) -->
                 <g>
                   <circle cx="4.75" cy="4.75" r="4.3" fill="#ffae19"/>
                   <circle cx="4.75" cy="4.75" r="3.3" fill="#ffe98a">
@@ -1875,8 +2054,6 @@
                     <animate attributeName="opacity" values="1;0.45;0.15;0.6;1" dur="0.9s" begin="0s" repeatCount="indefinite"/>
                   </circle>
                 </g>
-
-                <!-- Лампочка 2 (фаза 0.22s) -->
                 <g>
                   <circle cx="14.25" cy="4.75" r="4.3" fill="#ffae19"/>
                   <circle cx="14.25" cy="4.75" r="3.3" fill="#ffe98a">
@@ -1886,8 +2063,6 @@
                     <animate attributeName="opacity" values="1;0.45;0.15;0.6;1" dur="0.9s" begin="0.22s" repeatCount="indefinite"/>
                   </circle>
                 </g>
-
-                <!-- Лампочка 3 (фаза 0.45s) -->
                 <g>
                   <circle cx="14.25" cy="14.25" r="4.3" fill="#ffae19"/>
                   <circle cx="14.25" cy="14.25" r="3.3" fill="#ffe98a">
@@ -1897,8 +2072,6 @@
                     <animate attributeName="opacity" values="1;0.45;0.15;0.6;1" dur="0.9s" begin="0.45s" repeatCount="indefinite"/>
                   </circle>
                 </g>
-
-                <!-- Лампочка 4 (фаза 0.67s) -->
                 <g>
                   <circle cx="4.75" cy="14.25" r="4.3" fill="#ffae19"/>
                   <circle cx="4.75" cy="14.25" r="3.3" fill="#ffe98a">
@@ -1910,7 +2083,6 @@
                 </g>
               </pattern>
 
-              <!-- Геометрия букв БУРЛЕСК с ровным верхом и фирменной волной-аркой снизу -->
               <g id="burlesqueArchText" font-family="'Oswald', 'Impact', 'Arial Black', sans-serif" font-weight="700" font-size="178" text-anchor="middle">
                 <text x="115" y="180" transform="translate(115, 24) scale(1.04, 1.16) translate(-115, -24)">Б</text>
                 <text x="232" y="180" transform="translate(232, 24) scale(1.02, 1.08) translate(-232, -24)">У</text>
@@ -1922,7 +2094,6 @@
               </g>
             </defs>
 
-            <!-- 1. Глубокий 3D-объем рубиново-красного корпуса букв -->
             <g fill="#2b0204" stroke="#2b0204" stroke-width="16" stroke-linejoin="round">
               <use href="#burlesqueArchText" transform="translate(-12, 15)"/>
               <use href="#burlesqueArchText" transform="translate(10, 15)"/>
@@ -1940,16 +2111,10 @@
               <use href="#burlesqueArchText" transform="translate(3, 5)"/>
             </g>
 
-            <!-- 2. Темно-бронзовый внешний контур оправы -->
             <use href="#burlesqueArchText" fill="none" stroke="#361c02" stroke-width="13" stroke-linejoin="round"/>
-
-            <!-- 3. Выпуклый золотой кант букв -->
             <use href="#burlesqueArchText" fill="none" stroke="url(#goldBevel)" stroke-width="8.5" stroke-linejoin="round"/>
-
-            <!-- 4. Внутренняя янтарная ниша и базовый слой теплых лампочек -->
             <use href="#burlesqueArchText" fill="url(#bulbPatternBase)" stroke="#783d02" stroke-width="2.5" stroke-linejoin="round"/>
 
-            <!-- 5. Слой «бегущего огня» по лампочкам с поочередным зажиганием каждой буквы от Б до К -->
             <g font-family="'Oswald', 'Impact', 'Arial Black', sans-serif" font-weight="700" font-size="178" text-anchor="middle" fill="url(#bulbPatternChase)" stroke="url(#goldBevel)" stroke-width="2" stroke-linejoin="round">
               <text class="chase-letter l1" x="115" y="180" transform="translate(115, 24) scale(1.04, 1.16) translate(-115, -24)">Б</text>
               <text class="chase-letter l2" x="232" y="180" transform="translate(232, 24) scale(1.02, 1.08) translate(-232, -24)">У</text>
@@ -2079,7 +2244,12 @@
                src="./pic2.jpg"
                onerror="if(!this.dataset.ext){this.dataset.ext='jpeg';this.src='./pic2.jpeg';}else if(this.dataset.ext==='jpeg'){this.dataset.ext='png';this.src='./pic2.png';}else if(this.dataset.ext==='png'){this.dataset.ext='webp';this.src='./pic2.webp';}"
                alt="Ведущие Натали Веда и Дмитрий Сократилин">
-          <div class="host-media-placeholder" role="img" aria-label="Видео появится позже">Видео появится позже</div>
+          <video class="host-video" id="hostsVideo" controls playsinline preload="metadata" aria-label="Видео ведущих Натали Веда и Дмитрий Сократилин">
+            <source src="./video2.mp4" type="video/mp4">
+            <source src="./video2.webm" type="video/webm">
+            <source src="./video2.mov" type="video/quicktime">
+            Ваш браузер не поддерживает воспроизведение видео.
+          </video>
         </div>
 
         <div class="host-card">
@@ -2104,7 +2274,7 @@
       <div class="dress-code">
         <p class="section-subtitle">Дресс-код</p>
         <h2 class="dress-code-title">Новогодний шик и блеск</h2>
-        <p class="dress-code-desc">Приветствуются праздничные, эффектные и блестящие образы в духе «Великого Гэтсби» и Бурлеска.</p>
+        <p class="dress-code-desc">Приветствуются праздничные, эффектные и блестящие образы в духе «Острых козырьков» и Бурлеска.</p>
         
         <div class="dress-gallery">
           <div class="gallery-item">
@@ -2187,6 +2357,8 @@
             id="phone"
             name="phone"
             autocomplete="tel"
+            inputmode="tel"
+            maxlength="18"
             placeholder="+7 (999) 123-45-67"
             required>
         </div>
@@ -2208,15 +2380,12 @@
         <div class="form-group checkbox-group">
           <input type="checkbox" id="consent" name="consent" required>
           <label for="consent">
-            Я согласен(на) на обработку персональных данных.
-            <span class="consent-placeholder">Текст согласия и ссылка на политику конфиденциальности появятся позже.</span>
+            Я согласен(на) на <button type="button" class="consent-link-btn" id="openConsentModal">обработку персональных данных</button>.
           </label>
         </div>
 
         <button type="submit" class="btn form-submit" id="rsvpSubmitBtn">Подтвердить участие</button>
-        <div class="form-message" id="formMessage" role="status" aria-live="polite">
-          Регистрация пока недоступна. Информация появится позже.
-        </div>
+        <div class="form-message" id="formMessage" role="status" aria-live="polite"></div>
       </form>
     </section>
 
@@ -2227,9 +2396,9 @@
         <span class="ornament-symbol">✦</span>
       </div>
 
-      <div class="ticket-block" role="status" aria-live="polite">
+      <div class="ticket-block" id="ticketContainer" role="status" aria-live="polite">
         <div class="ticket-title">Ваш билет</div>
-        <p class="ticket-message">Персональный код появится после подключения регистрации.</p>
+        <p class="ticket-message">Заполните форму участия выше, чтобы получить персональный код билета.</p>
       </div>
     </section>
 
@@ -2251,6 +2420,30 @@
     <div class="footer-brand">Nord Engineering</div>
     <p>Новогодний корпоратив «Бурлеск» · 19 декабря 2026</p>
   </footer>
+
+  <!-- ===== МОДАЛЬНОЕ ОКНО СОГЛАСИЯ НА ОБРАБОТКУ ПЕРСОНАЛЬНЫХ ДАННЫХ ===== -->
+  <div class="consent-modal-overlay" id="consentModal" role="dialog" aria-labelledby="consentModalTitle" aria-modal="true" aria-hidden="true">
+    <div class="consent-modal-card">
+      <div class="consent-modal-header">
+        <h3 class="consent-modal-title" id="consentModalTitle">Согласие на обработку персональных данных</h3>
+        <button type="button" class="consent-modal-close" id="closeConsentModal" aria-label="Закрыть окно">&times;</button>
+      </div>
+      <div class="consent-modal-body">
+        <p>Настоящим я, заполняя форму подтверждения участия на сайте новогоднего корпоративного мероприятия компании «Норд Инжиниринг» (Nord Engineering), свободно, своей волей и в своем интересе даю согласие в соответствии с Федеральным законом № 152-ФЗ «О персональных данных» на обработку моих персональных данных.</p>
+        <p>Перечень персональных данных, на обработку которых дается согласие:</p>
+        <ul>
+          <li>имя и фамилия;</li>
+          <li>контактный номер телефона;</li>
+          <li>сведения о подтверждении участия и персональный код пригласительного билета.</li>
+        </ul>
+        <p>Цель обработки персональных данных — составление списков гостей, формирование именного пригласительного билета, организация рассадки в зале и оперативная связь с участниками новогоднего корпоративного вечера «Бурлеск» (19 декабря 2026 года).</p>
+        <p>Обработка включает сбор, запись, систематизацию, хранение, уточнение и удаление данных по завершении организационных мероприятий. Персональные данные не передаются третьим лицам в рекламных или коммерческих целях. Согласие может быть отозвано субъектом персональных данных в любой момент путем обращения к организаторам мероприятия.</p>
+      </div>
+      <div class="consent-modal-footer">
+        <button type="button" class="btn" id="acceptConsentBtn">Принять согласие</button>
+      </div>
+    </div>
+  </div>
 
   <!-- ===== TOAST ===== -->
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -2287,7 +2480,6 @@
         canvas.height = window.innerHeight;
       }
 
-      /* Умеренное количество изящных частиц золотой пыльцы и мягких бликов + маленькие редкие серебряные снежинки */
       function createParticles() {
         var count = Math.min(48, Math.floor(window.innerWidth / 30));
         particles = [];
@@ -2311,7 +2503,6 @@
           });
         }
 
-        /* Маленькие серебряные сверкающие падающие снежинки (поменьше и пореже) */
         var snowCount = Math.min(46, Math.floor(window.innerWidth / 28));
         silverSnowflakes = [];
         for (var s = 0; s < snowCount; s++) {
@@ -2330,7 +2521,6 @@
         }
       }
 
-      /* Отрисовка маленькой серебряной сверкающей шестилучевой снежинки */
       function drawSilverSnowflake(sf) {
         var shimmerWave = Math.sin(sf.wobble * 2.4);
         var alpha = sf.opacity * (0.6 + 0.4 * Math.abs(shimmerWave));
@@ -2341,7 +2531,6 @@
         ctx.translate(sf.x, sf.y);
         ctx.rotate(sf.rotation);
 
-        /* Серебристый мягкий ореол вокруг снежинки */
         var halo = ctx.createRadialGradient(0, 0, 0, 0, 0, r * 2.4);
         halo.addColorStop(0, 'rgba(255, 255, 255, ' + Math.min(1, alpha * 0.95) + ')');
         halo.addColorStop(0.45, 'rgba(210, 228, 252, ' + (alpha * 0.5) + ')');
@@ -2351,7 +2540,6 @@
         ctx.arc(0, 0, r * 2.4, 0, Math.PI * 2);
         ctx.fill();
 
-        /* 6 тонких серебряных кристаллических лучей с веточками */
         ctx.strokeStyle = isGlinting
           ? 'rgba(255, 255, 255, ' + Math.min(1, alpha * 1.25) + ')'
           : 'rgba(222, 234, 248, ' + alpha + ')';
@@ -2377,7 +2565,6 @@
         }
         ctx.stroke();
 
-        /* Алмазная серебряная искра в центре снежинки при переливании */
         if (isGlinting) {
           var glintLen = r * 1.5;
           ctx.fillStyle = 'rgba(255, 255, 255, ' + Math.min(1, alpha * 1.3) + ')';
@@ -2528,7 +2715,6 @@
       function animateCanvas() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        /* Фоновые частицы люкс-мерцания и маленькие серебряные снежинки */
         if (animEnabled) {
           for (var i = 0; i < particles.length; i++) {
             var p = particles[i];
@@ -2550,7 +2736,6 @@
             drawParticle(p);
           }
 
-          /* Анимация падения и сверкания серебряных снежинок */
           for (var s = 0; s < silverSnowflakes.length; s++) {
             var sf = silverSnowflakes[s];
             sf.wobble += sf.wobbleSpeed;
@@ -2569,7 +2754,6 @@
           }
         }
 
-        /* Кольца салюта */
         for (var w = shockwaves.length - 1; w >= 0; w--) {
           var sw = shockwaves[w];
           sw.radius += (sw.maxRadius - sw.radius) * 0.16;
@@ -2587,7 +2771,6 @@
           }
         }
 
-        /* Ракеты салюта */
         for (var r = fireworkRockets.length - 1; r >= 0; r--) {
           var rk = fireworkRockets[r];
           rk.x += rk.vx;
@@ -2613,7 +2796,6 @@
           }
         }
 
-        /* Частицы салюта */
         for (var b = fireworkBursts.length - 1; b >= 0; b--) {
           var fb = fireworkBursts[b];
           fb.prevX = fb.x;
@@ -2658,7 +2840,6 @@
           }
         }
 
-        /* Интерактивные вспышки при наведении и ведении по экрану */
         for (var j = sparkles.length - 1; j >= 0; j--) {
           var sp = sparkles[j];
           sp.x += sp.vx;
@@ -2679,7 +2860,6 @@
         }
       }
 
-      /* Вспышки за курсором мыши / касанием пальца */
       function spawnSparkleTrail(x, y) {
         if (!animEnabled || sparkles.length > 85) return;
         for (var i = 0; i < 2; i++) {
@@ -2866,6 +3046,8 @@
       var muteBtn = document.getElementById('muteBtn');
       var volumeIcon = document.getElementById('volumeIcon');
       var bandVideo = document.getElementById('bandVideo');
+      var hostsVideo = document.getElementById('hostsVideo');
+      var allVideos = [bandVideo, hostsVideo].filter(Boolean);
 
       var playIconPath = 'M8 5v14l11-7z';
       var pauseIconPath = 'M6 4h4v16H6V4zm8 0h4v16h-4V4z';
@@ -2890,9 +3072,14 @@
         }
       }
 
-      /* Автоматическая пауза фоновой музыки при запуске видео кавер-группы «Балбесы» */
-      if (bandVideo) {
-        bandVideo.addEventListener('play', function() {
+      /* Автоматическая пауза фоновой музыки и другого видео при запуске любого из видеороликов */
+      allVideos.forEach(function(videoEl) {
+        videoEl.addEventListener('play', function() {
+          allVideos.forEach(function(otherVideo) {
+            if (otherVideo !== videoEl && !otherVideo.paused) {
+              otherVideo.pause();
+            }
+          });
           if (audio && isPlaying) {
             wasMusicPlayingBeforeVideo = true;
             audio.pause();
@@ -2900,15 +3087,16 @@
           }
         });
 
-        bandVideo.addEventListener('ended', function() {
-          if (wasMusicPlayingBeforeVideo && audio && !isPlaying) {
+        videoEl.addEventListener('ended', function() {
+          var anyPlaying = allVideos.some(function(v) { return !v.paused; });
+          if (!anyPlaying && wasMusicPlayingBeforeVideo && audio && !isPlaying) {
             wasMusicPlayingBeforeVideo = false;
             audio.play().then(function() {
               setMusicUIState(true);
             }).catch(function() {});
           }
         });
-      }
+      });
 
       function updateVolumeIcon(volume) {
         if (volume === 0) {
@@ -2937,9 +3125,9 @@
           audio.pause();
           setMusicUIState(false);
         } else {
-          if (bandVideo && !bandVideo.paused) {
-            bandVideo.pause();
-          }
+          allVideos.forEach(function(v) {
+            if (!v.paused) v.pause();
+          });
           audio.play().then(function() {
             setMusicUIState(true);
           }).catch(function() {
@@ -2978,27 +3166,293 @@
 
       updateVolumeIcon(volumeSlider.value / 100);
 
-      /* ===== ФОРМА RSVP + ЗАЛП ЗОЛОТОГО САЛЮТА ===== */
+      /* ===== МОДАЛЬНОЕ ОКНО СОГЛАСИЯ НА ОБРАБОТКУ ПЕРСОНАЛЬНЫХ ДАННЫХ ===== */
+      var consentModal = document.getElementById('consentModal');
+      var openConsentModalBtn = document.getElementById('openConsentModal');
+      var closeConsentModalBtn = document.getElementById('closeConsentModal');
+      var acceptConsentBtn = document.getElementById('acceptConsentBtn');
+      var consentInput = document.getElementById('consent');
+
+      function openConsentModal() {
+        consentModal.classList.add('open');
+        consentModal.setAttribute('aria-hidden', 'false');
+        closeConsentModalBtn.focus();
+      }
+
+      function closeConsentModal() {
+        consentModal.classList.remove('open');
+        consentModal.setAttribute('aria-hidden', 'true');
+        openConsentModalBtn.focus();
+      }
+
+      openConsentModalBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        openConsentModal();
+      });
+
+      closeConsentModalBtn.addEventListener('click', closeConsentModal);
+
+      acceptConsentBtn.addEventListener('click', function() {
+        consentInput.checked = true;
+        closeConsentModal();
+      });
+
+      consentModal.addEventListener('click', function(e) {
+        if (e.target === consentModal) {
+          closeConsentModal();
+        }
+      });
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && consentModal.classList.contains('open')) {
+          closeConsentModal();
+        }
+      });
+
+      /* ===== ФОРМА RSVP + АВТОФОРМАТИРОВАНИЕ ТЕЛЕФОНА + GOOGLE ТАБЛИЦА + ВЫДАЧА БИЛЕТА ===== */
+      var GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxXGeyhGEmsyW5Bb7lahtGZwaR_jGlVYnt-7V09h0LlzdaZfdEtuC7SZNrLXug1wMd8/exec';
+      var STORAGE_KEY = 'nord_burlesque_ticket_2026';
+
       var rsvpForm = document.getElementById('rsvpForm');
       var rsvpSubmitBtn = document.getElementById('rsvpSubmitBtn');
       var formMessage = document.getElementById('formMessage');
-      var formTimer;
+      var ticketContainer = document.getElementById('ticketContainer');
+      var fullNameInput = document.getElementById('fullName');
+      var phoneInput = document.getElementById('phone');
+
+      /* Автоматическая маска телефона +7 (999) 123-45-67 */
+      function formatPhoneMask(rawValue) {
+        var digits = String(rawValue || '').replace(/\D/g, '');
+        if (!digits) return '';
+
+        if (digits[0] === '8') {
+          digits = '7' + digits.slice(1);
+        } else if (digits[0] !== '7') {
+          digits = '7' + digits;
+        }
+
+        digits = digits.slice(0, 11);
+
+        var formatted = '+7';
+        if (digits.length > 1) {
+          formatted += ' (' + digits.slice(1, 4);
+        }
+        if (digits.length >= 5) {
+          formatted += ') ' + digits.slice(4, 7);
+        }
+        if (digits.length >= 8) {
+          formatted += '-' + digits.slice(7, 9);
+        }
+        if (digits.length >= 10) {
+          formatted += '-' + digits.slice(9, 11);
+        }
+        return formatted;
+      }
+
+      phoneInput.addEventListener('focus', function() {
+        if (!phoneInput.value.trim()) {
+          phoneInput.value = '+7 (';
+        }
+      });
+
+      phoneInput.addEventListener('blur', function() {
+        var digits = phoneInput.value.replace(/\D/g, '');
+        if (digits.length <= 1) {
+          phoneInput.value = '';
+        }
+      });
+
+      phoneInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Backspace') {
+          var digits = phoneInput.value.replace(/\D/g, '');
+          if (digits.length <= 1) {
+            e.preventDefault();
+            phoneInput.value = '';
+          }
+        }
+      });
+
+      phoneInput.addEventListener('input', function() {
+        phoneInput.value = formatPhoneMask(phoneInput.value);
+      });
+
+      function escapeHtml(str) {
+        return String(str).replace(/[&<>"']/g, function(ch) {
+          return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[ch];
+        });
+      }
+
+      function generateTicketCode() {
+        var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+        var suffix = '';
+        for (var i = 0; i < 4; i++) {
+          suffix += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return 'NE-2026-' + suffix;
+      }
+
+      function renderIssuedTicket(data) {
+        if (!ticketContainer || !data) return;
+
+        if (data.attendance === 'no') {
+          ticketContainer.innerHTML =
+            '<div class="ticket-title">Статус участия</div>' +
+            '<p class="ticket-message">Спасибо за ответ, ' + escapeHtml(data.fullName) + '. Жаль, что вы не сможете присутствовать. Если планы изменятся, вы можете отправить форму повторно.</p>';
+          return;
+        }
+
+        ticketContainer.innerHTML =
+          '<div class="issued-ticket">' +
+            '<span class="issued-ticket-badge">Именной билет · Бурлеск 2026</span>' +
+            '<div class="issued-ticket-guest">' + escapeHtml(data.fullName) + '</div>' +
+            '<div class="issued-ticket-code-box">' +
+              '<span class="issued-ticket-code-label">Персональный код</span>' +
+              '<span class="issued-ticket-code-value" id="issuedCodeText">' + escapeHtml(data.ticketCode) + '</span>' +
+            '</div>' +
+            '<div class="issued-ticket-meta">' +
+              '19 декабря 2026 · 18:00<br>' +
+              'Ресторан «Жемчужина Сибири» (Пирамида), ул. 60 лет Октября, 6а' +
+            '</div>' +
+            '<button type="button" class="btn copy-ticket-btn" id="copyTicketBtn">Скопировать код билета</button>' +
+          '</div>';
+
+        var copyBtn = document.getElementById('copyTicketBtn');
+        if (copyBtn) {
+          copyBtn.addEventListener('click', function() {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(data.ticketCode).then(function() {
+                showToast('Код билета ' + data.ticketCode + ' скопирован');
+              }).catch(function() {
+                showToast('Ваш код: ' + data.ticketCode);
+              });
+            } else {
+              showToast('Ваш код: ' + data.ticketCode);
+            }
+          });
+        }
+      }
+
+      /* Восстановление билета при повторном открытии страницы */
+      try {
+        var savedTicketRaw = localStorage.getItem(STORAGE_KEY);
+        if (savedTicketRaw) {
+          var savedTicket = JSON.parse(savedTicketRaw);
+          if (savedTicket && savedTicket.fullName) {
+            renderIssuedTicket(savedTicket);
+          }
+        }
+      } catch (e) {}
 
       rsvpForm.addEventListener('submit', function(e) {
         e.preventDefault();
 
+        var fullName = fullNameInput.value.trim();
+        var phone = phoneInput.value.trim();
+        var phoneDigits = phone.replace(/\D/g, '');
+        var attendanceEl = rsvpForm.querySelector('input[name="attendance"]:checked');
+        var consent = consentInput.checked;
+
+        if (!fullName) {
+          showToast('Пожалуйста, укажите ваше имя и фамилию');
+          fullNameInput.focus();
+          return;
+        }
+
+        if (phoneDigits.length < 11) {
+          showToast('Пожалуйста, введите полный номер телефона в формате +7 (999) 123-45-67');
+          phoneInput.focus();
+          return;
+        }
+
+        if (!attendanceEl) {
+          showToast('Пожалуйста, выберите вариант присутствия');
+          return;
+        }
+
+        if (!consent) {
+          showToast('Необходимо согласие на обработку персональных данных');
+          consentInput.focus();
+          return;
+        }
+
+        var attendance = attendanceEl.value;
+        var fallbackTicketCode = attendance === 'yes' ? generateTicketCode() : '—';
+
+        /* Праздничный золотой салют из кнопки */
         var rect = rsvpSubmitBtn.getBoundingClientRect();
         var btnCenterX = rect.left + rect.width / 2;
         var btnCenterY = rect.top + rect.height / 2;
         launchGoldenSalvo(btnCenterX, btnCenterY);
 
-        showToast('Регистрация пока недоступна. Информация появится позже.');
+        rsvpSubmitBtn.disabled = true;
+        var originalBtnText = rsvpSubmitBtn.textContent;
+        rsvpSubmitBtn.textContent = 'Проверка и сохранение...';
 
-        clearTimeout(formTimer);
-        formMessage.classList.add('show');
-        formTimer = setTimeout(function() {
-          formMessage.classList.remove('show');
-        }, 5000);
+        var payload = {
+          fullName: fullName,
+          phone: phone,
+          attendance: attendance,
+          ticketCode: fallbackTicketCode
+        };
+
+        function completeRegistration(isDuplicate) {
+          try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+          } catch (err) {}
+
+          renderIssuedTicket(payload);
+
+          rsvpSubmitBtn.disabled = false;
+          rsvpSubmitBtn.textContent = originalBtnText;
+
+          if (attendance === 'yes') {
+            if (isDuplicate) {
+              formMessage.textContent = 'Вы уже зарегистрированы! Ваш сохраненный код билета: ' + payload.ticketCode;
+              showToast('Возвращен ваш билет: ' + payload.ticketCode, 4500);
+            } else {
+              formMessage.textContent = 'Участие подтверждено! Ваш персональный код билета: ' + payload.ticketCode;
+              showToast('Ваш билет сформирован: ' + payload.ticketCode, 4500);
+            }
+          } else {
+            formMessage.textContent = 'Спасибо за ответ! Информация сохранена.';
+            showToast('Ваш ответ сохранен', 3500);
+          }
+          formMessage.classList.add('show');
+
+          setTimeout(function() {
+            var ticketSection = document.getElementById('ticket');
+            if (ticketSection) {
+              ticketSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+          }, 900);
+        }
+
+        if (GOOGLE_SCRIPT_URL && GOOGLE_SCRIPT_URL.indexOf('http') === 0) {
+          fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(payload)
+          })
+          .then(function(response) {
+            return response.json();
+          })
+          .then(function(result) {
+            if (result && result.status === 'success') {
+              if (result.ticketCode) {
+                payload.ticketCode = result.ticketCode;
+              }
+              completeRegistration(Boolean(result.isDuplicate));
+            } else {
+              completeRegistration(false);
+            }
+          })
+          .catch(function() {
+            completeRegistration(false);
+          });
+        } else {
+          completeRegistration(false);
+        }
       });
 
     })();
