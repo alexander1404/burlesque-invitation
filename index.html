@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Новогоднее приглашение Nord Engineering — корпоратив «Бурлеск», 19 декабря 2026">
-  <title>Nord Engineering — Новогодний корпоратив «Бурлеск»</title>
+  <meta name="description" content="Новогоднее приглашение Nord Group — корпоратив «Бурлеск», 19 декабря 2026">
+  <title>Nord Group — Новогодний корпоратив «Бурлеск»</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <!-- Poiret One — аутентичный геометрический шрифт эпохи Ар-деко 1930-х годов для всей страницы; Oswald — для бродвейской 3D-вывески БУРЛЕСК -->
@@ -549,6 +549,9 @@
     }
 
     .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
       font-family: var(--font-30s);
       font-size: 20px;
       letter-spacing: 4px;
@@ -556,6 +559,15 @@
       color: var(--gold-light);
       -webkit-text-stroke: 0.55px var(--gold-light);
       text-shadow: 0 0 14px rgba(212, 175, 55, 0.35);
+    }
+
+    .brand-logo {
+      height: 34px;
+      width: auto;
+      display: block;
+      object-fit: contain;
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.25));
     }
 
     .brand span { color: var(--cream); -webkit-text-stroke: 0.35px var(--cream); }
@@ -1248,7 +1260,7 @@
       z-index: 2;
     }
 
-    /* ===== ГОЛОСОВАНИЕ ===== */
+    /* ===== ГОЛОСОВАНИЕ (ВАШИ ПРИЗЫ ЖДУТ ВАС) ===== */
     .voting-block {
       margin-top: 40px;
       padding: 42px 28px;
@@ -1262,32 +1274,22 @@
       color: var(--gold-light);
       letter-spacing: 3.5px;
       text-transform: uppercase;
-      margin-bottom: 12px;
+      margin-bottom: 20px;
       -webkit-text-stroke: 0.55px var(--gold-light);
       position: relative;
       z-index: 2;
     }
 
-    .voting-placeholder {
-      font-family: var(--font-30s);
-      color: var(--gold);
-      font-size: 20px;
-      letter-spacing: 2px;
-      margin: 16px 0;
+    .voting-gift-img {
+      max-width: 440px;
+      width: 100%;
+      height: auto;
+      border-radius: 4px;
+      display: block;
+      margin: 0 auto;
       position: relative;
       z-index: 2;
-    }
-
-    .voting-note {
-      font-family: var(--font-30s);
-      font-size: 15px;
-      color: var(--muted);
-      max-width: 640px;
-      margin: 12px auto 0;
-      line-height: 1.75;
-      letter-spacing: 1.2px;
-      position: relative;
-      z-index: 2;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.8);
     }
 
     /* ===== ФОРМА ===== */
@@ -1837,13 +1839,22 @@
     }
 
     .footer-brand {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
       font-family: var(--font-30s);
       color: var(--gold-light);
       font-size: 20px;
       letter-spacing: 5px;
       text-transform: uppercase;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       -webkit-text-stroke: 0.5px var(--gold-light);
+    }
+
+    .footer-brand span {
+      color: var(--cream);
+      -webkit-text-stroke: 0.35px var(--cream);
     }
 
     /* ===== АДАПТИВНОСТЬ ===== */
@@ -1999,7 +2010,13 @@
   <!-- ===== НАВИГАЦИЯ ===== -->
   <nav class="site-nav" aria-label="Основная навигация">
     <div class="site-nav-inner">
-      <div class="brand">Nord <span>Engineering</span></div>
+      <div class="brand">
+        <img class="brand-logo"
+             src="./logo.img.png"
+             onerror="if(!this.dataset.ext){this.dataset.ext='img';this.src='./logo.img';}else if(this.dataset.ext==='img'){this.dataset.ext='png';this.src='./logo.png';}"
+             alt="Логотип Nord Group">
+        <div>Nord <span>Group</span></div>
+      </div>
       <ul class="nav-links">
         <li><a href="#event">Событие</a></li>
         <li><a href="#countdown">Таймер</a></li>
@@ -2128,7 +2145,7 @@
         </span>
         <span class="or">или</span>
         <span class="happy-new-year">С Новым годом,</span>
-        <span class="company">Норд Инжиниринг!</span>
+        <span class="company">Nord Group !!!</span>
       </h1>
 
       <div class="ornament" aria-hidden="true">
@@ -2186,7 +2203,7 @@
       <div class="featured-photo-frame">
         <img src="./Duck-ai-image-2026-10-22-10-52.jpeg"
              onerror="this.onerror=null;this.src='https://z-cdn-media.chatglm.cn/files/4162052f-4779-4011-bbb1-722d5d42b878.jpeg?auth_key=1893097800-3033b4c13a61471d94573187873d4a80-0-0f094d2a6218a3cc5b55dbfcd8f729e0';"
-             alt="Пара в стиле Великого Гэтсби с бокалами шампанского на фоне вывески Nord Engineering Party и новогодней ёлки">
+             alt="Пара в стиле Великого Гэтсби с бокалами шампанского на фоне вывески Nord Group Party и новогодней ёлки">
       </div>
     </div>
 
@@ -2199,7 +2216,7 @@
 
       <div class="invitation-text">
         <p class="greeting">Дорогие коллеги!</p>
-        <p>Приглашаем вас на главное событие уходящего года — новогодний корпоративный вечер <em>«Бурлеск, или С Новым годом, Норд Инжиниринг!»</em></p>
+        <p>Приглашаем вас на главное событие уходящего года — новогодний корпоративный вечер <em>«Бурлеск, или С Новым годом, Nord Group !!!»</em></p>
         <p>Вы, конечно, спросите: <span class="quote">«Что такое бурлеск?»</span></p>
         <p>Бурлеск — это шоу, где блеск сочетается с иронией, а искромётный юмор — с ослепительными нарядами.</p>
         <p>Пришло время окунуться в атмосферу праздника, где всё сверкает, искрится и удивляет!</p>
@@ -2274,7 +2291,7 @@
       <div class="dress-code">
         <p class="section-subtitle">Дресс-код</p>
         <h2 class="dress-code-title">Новогодний шик и блеск</h2>
-        <p class="dress-code-desc">Приветствуются праздничные, эффектные и блестящие образы в духе «Острых козырьков» и Бурлеска.</p>
+        <p class="dress-code-desc">Приветствуются праздничные, эффектные и блестящие образы в духе «Острых козырьков » и Бурлеска.</p>
         
         <div class="dress-gallery">
           <div class="gallery-item">
@@ -2284,10 +2301,12 @@
             <img src="https://z-cdn-media.chatglm.cn/files/a7a833b6-b41c-4c1c-a30c-e981b84307fe.jpg?auth_key=1893097800-1da0fc58f40243bb8d8d72462411b85c-0-8d5834d69675ec07cdfa538947f4daa1" alt="Женщина в шести ретро-образах 1920-х годов с разными шляпками и вуалями">
           </div>
           <div class="gallery-item">
-            <img src="https://z-cdn-media.chatglm.cn/files/4162052f-4779-4011-bbb1-722d5d42b878.jpeg?auth_key=1893097800-3033b4c13a61471d94573187873d4a80-0-0f094d2a6218a3cc5b55dbfcd8f729e0" alt="Пара в стиле Гэтсби на фоне с надписью Nord Engineering Party">
+            <img src="./Duck-ai-image-2026-10-22-10-52.jpeg"
+                 onerror="if(!this.dataset.ext){this.dataset.ext='jpg';this.src='./Duck-ai-image-2026-10-22-10-52.jpg';}else if(this.dataset.ext==='jpg'){this.dataset.ext='png';this.src='./Duck-ai-image-2026-10-22-10-52.png';}"
+                 alt="Пара в стиле Великого Гэтсби с бокалами шампанского на фоне вывески Nord Group Party и новогодней ёлки">
           </div>
           <div class="gallery-item">
-            <img src="https://z-cdn-media.chatglm.cn/files/2f4ea584-3582-4fd4-aea4-33693fcde5d1.jpeg?auth_key=1893097800-02e7a6b7af4544c6a6ac3c38701a5b9b-0-3372fa3904aa6e51df407b83abb1d6f4" alt="Четверо гостей в стиле Гэтсби на вечеринке Nord Engineering Party">
+            <img src="https://z-cdn-media.chatglm.cn/files/2f4ea584-3582-4fd4-aea4-33693fcde5d1.jpeg?auth_key=1893097800-02e7a6b7af4544c6a6ac3c38701a5b9b-0-3372fa3904aa6e51df407b83abb1d6f4" alt="Четверо гостей в стиле Гэтсби на вечеринке Nord Group Party">
           </div>
           <div class="gallery-item">
             <img src="./Без названия (78).jpeg" alt="Пара в стиле Великого Гэтсби в новогодней атмосфере с ретро-часами">
@@ -2301,7 +2320,7 @@
 
     <!-- ===== КОНКУРС ===== -->
     <section id="contest">
-      <h2 class="section-title">Конкурс «Лучший головной убор»</h2>
+      <h2 class="section-title">Конкурс на лучший тематисеский образ </h2>
       <div class="ornament" aria-hidden="true">
         <span class="ornament-symbol">✦</span>
       </div>
@@ -2319,20 +2338,18 @@
             <div class="category-prize">призовой фонд <strong>50 000 ₽</strong></div>
           </div>
           <div class="category-card special">
-            <div class="category-name">Специальные призы</div>
-            <div class="category-prize">призовой фонд <strong>50 000 ₽</strong></div>
+            <div class="category-name">Призы за лучший головной убор </div>
+            <div class="category-prize"> <strong></strong></div>
             <p class="category-special-note">Вручаются за наиболее оригинальную, креативную или запоминающуюся работу по решению руководства</p>
           </div>
         </div>
 
         <div class="voting-block">
-          <h3>Голосование</h3>
-          <p class="voting-placeholder">Участники конкурса и голосование появятся позже</p>
-          <p class="voting-note">
-            Голосование доступно только по номинациям «Женский образ» и «Мужской образ».
-            Победителя в номинации «Специальный приз» определяет руководство.
-            Текущая версия голосования не работает — для настоящего голосования потребуется серверная часть.
-          </p>
+          <h3>Ваши призы ждут вас</h3>
+          <img class="voting-gift-img"
+               src="./logogift.img.jpeg"
+               onerror="if(!this.dataset.ext){this.dataset.ext='img';this.src='./logogift.img';}else if(this.dataset.ext==='img'){this.dataset.ext='imgjpg';this.src='./logogift.img.jpg';}else if(this.dataset.ext==='imgjpg'){this.dataset.ext='imgpng';this.src='./logogift.img.png';}else if(this.dataset.ext==='imgpng'){this.dataset.ext='jpeg';this.src='./logogift.jpeg';}"
+               alt="Подарок Nord Group на серебряном подносе">
         </div>
       </div>
     </section>
@@ -2412,12 +2429,23 @@
       <div class="ticket-block" role="status" aria-live="polite">
         <div class="ticket-title">План зала и столов</div>
         <p class="ticket-message">Информация о рассадке гостей появится позже.</p>
+        <img class="voting-gift-img"
+             style="margin-top: 24px;"
+             src="./nord.img.jpeg"
+             onerror="if(!this.dataset.ext){this.dataset.ext='img';this.src='./nord.img';}else if(this.dataset.ext==='img'){this.dataset.ext='imgjpg';this.src='./nord.img.jpg';}else if(this.dataset.ext==='imgjpg'){this.dataset.ext='imgpng';this.src='./nord.img.png';}else if(this.dataset.ext==='imgpng'){this.dataset.ext='jpeg';this.src='./nord.jpeg';}"
+             alt="Праздничная сервировка стола с логотипом Nord Group">
       </div>
     </section>
   </main>
 
   <footer>
-    <div class="footer-brand">Nord Engineering</div>
+    <div class="footer-brand">
+      <img class="brand-logo"
+           src="./logo.img.png"
+           onerror="if(!this.dataset.ext){this.dataset.ext='img';this.src='./logo.img';}else if(this.dataset.ext==='img'){this.dataset.ext='png';this.src='./logo.png';}"
+           alt="Логотип Nord Group">
+      <div>Nord <span>Group</span></div>
+    </div>
     <p>Новогодний корпоратив «Бурлеск» · 19 декабря 2026</p>
   </footer>
 
@@ -2429,7 +2457,7 @@
         <button type="button" class="consent-modal-close" id="closeConsentModal" aria-label="Закрыть окно">&times;</button>
       </div>
       <div class="consent-modal-body">
-        <p>Настоящим я, заполняя форму подтверждения участия на сайте новогоднего корпоративного мероприятия компании «Норд Инжиниринг» (Nord Engineering), свободно, своей волей и в своем интересе даю согласие в соответствии с Федеральным законом № 152-ФЗ «О персональных данных» на обработку моих персональных данных.</p>
+        <p>Настоящим я, заполняя форму подтверждения участия на сайте новогоднего корпоративного мероприятия компании «Норд Групп» (Nord Group), свободно, своей волей и в своем интересе даю согласие в соответствии с Федеральным законом № 152-ФЗ «О персональных данных» на обработку моих персональных данных.</p>
         <p>Перечень персональных данных, на обработку которых дается согласие:</p>
         <ul>
           <li>имя и фамилия;</li>
