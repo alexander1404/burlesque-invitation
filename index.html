@@ -1799,30 +1799,6 @@
       border: none;
     }
 
-    /* ===== TOAST ===== */
-    .toast {
-      position: fixed;
-      bottom: 90px;
-      left: 50%;
-      transform: translateX(-50%) translateY(150%);
-      background: rgba(14, 9, 13, 0.96);
-      border: 1px solid var(--gold);
-      color: var(--gold-light);
-      font-family: var(--font-30s);
-      font-size: 17px;
-      padding: 14px 28px;
-      border-radius: 4px;
-      z-index: 200;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85), 0 0 24px rgba(212, 175, 55, 0.3);
-      transition: transform 0.4s ease;
-      max-width: 90vw;
-      text-align: center;
-      letter-spacing: 2px;
-      pointer-events: none;
-    }
-
-    .toast.show { transform: translateX(-50%) translateY(0); }
-
     /* ===== ПОДВАЛ ===== */
     footer {
       position: relative;
@@ -2291,7 +2267,7 @@
       <div class="dress-code">
         <p class="section-subtitle">Дресс-код</p>
         <h2 class="dress-code-title">Новогодний шик и блеск</h2>
-        <p class="dress-code-desc">Приветствуются праздничные, эффектные и блестящие образы в духе «Острых козырьков » и Бурлеска.</p>
+        <p class="dress-code-desc">Приветствуются праздничные, эффектные и блестящие образы в духе «Острых козырьков» и Бурлеска.</p>
         
         <div class="dress-gallery">
           <div class="gallery-item">
@@ -2320,7 +2296,7 @@
 
     <!-- ===== КОНКУРС ===== -->
     <section id="contest">
-      <h2 class="section-title">Конкурс на лучший тематисеский образ </h2>
+      <h2 class="section-title">Конкурс на лучший тематический образ </h2>
       <div class="ornament" aria-hidden="true">
         <span class="ornament-symbol">✦</span>
       </div>
@@ -2472,9 +2448,6 @@
       </div>
     </div>
   </div>
-
-  <!-- ===== TOAST ===== -->
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <noscript>
     <style>
@@ -3045,20 +3018,6 @@
       updateCountdown();
       var countdownInterval = setInterval(updateCountdown, 1000);
 
-      /* ===== TOAST ===== */
-      var toast = document.getElementById('toast');
-      var toastTimer;
-
-      function showToast(message, duration) {
-        duration = duration || 3000;
-        clearTimeout(toastTimer);
-        toast.textContent = message;
-        toast.classList.add('show');
-        toastTimer = setTimeout(function() {
-          toast.classList.remove('show');
-        }, duration);
-      }
-
       /* ===== УПРАВЛЕНИЕ МУЗЫКОЙ И ГРОМКОСТЬЮ ===== */
       var audioSrc = 'jazz-new-year.mp3';
 
@@ -3138,7 +3097,6 @@
 
       musicToggle.addEventListener('click', function() {
         if (!audioSrc) {
-          showToast('Музыка будет добавлена позже');
           return;
         }
 
@@ -3158,9 +3116,7 @@
           });
           audio.play().then(function() {
             setMusicUIState(true);
-          }).catch(function() {
-            showToast('Не удалось воспроизвести музыку');
-          });
+          }).catch(function() {});
         }
       });
 
@@ -3248,6 +3204,11 @@
       var ticketContainer = document.getElementById('ticketContainer');
       var fullNameInput = document.getElementById('fullName');
       var phoneInput = document.getElementById('phone');
+
+      function showFormStatus(text) {
+        formMessage.textContent = text;
+        formMessage.classList.add('show');
+      }
 
       /* Автоматическая маска телефона +7 (999) 123-45-67 */
       function formatPhoneMask(rawValue) {
@@ -3348,14 +3309,18 @@
         var copyBtn = document.getElementById('copyTicketBtn');
         if (copyBtn) {
           copyBtn.addEventListener('click', function() {
+            var defaultLabel = 'Скопировать код билета';
             if (navigator.clipboard && navigator.clipboard.writeText) {
               navigator.clipboard.writeText(data.ticketCode).then(function() {
-                showToast('Код билета ' + data.ticketCode + ' скопирован');
+                copyBtn.textContent = 'Код скопирован';
+                setTimeout(function() { copyBtn.textContent = defaultLabel; }, 2500);
               }).catch(function() {
-                showToast('Ваш код: ' + data.ticketCode);
+                copyBtn.textContent = 'Код: ' + data.ticketCode;
+                setTimeout(function() { copyBtn.textContent = defaultLabel; }, 2500);
               });
             } else {
-              showToast('Ваш код: ' + data.ticketCode);
+              copyBtn.textContent = 'Код: ' + data.ticketCode;
+              setTimeout(function() { copyBtn.textContent = defaultLabel; }, 2500);
             }
           });
         }
@@ -3382,24 +3347,24 @@
         var consent = consentInput.checked;
 
         if (!fullName) {
-          showToast('Пожалуйста, укажите ваше имя и фамилию');
+          showFormStatus('Пожалуйста, укажите ваше имя и фамилию.');
           fullNameInput.focus();
           return;
         }
 
         if (phoneDigits.length < 11) {
-          showToast('Пожалуйста, введите полный номер телефона в формате +7 (999) 123-45-67');
+          showFormStatus('Пожалуйста, введите полный номер телефона в формате +7 (999) 123-45-67.');
           phoneInput.focus();
           return;
         }
 
         if (!attendanceEl) {
-          showToast('Пожалуйста, выберите вариант присутствия');
+          showFormStatus('Пожалуйста, выберите вариант присутствия.');
           return;
         }
 
         if (!consent) {
-          showToast('Необходимо согласие на обработку персональных данных');
+          showFormStatus('Необходимо согласие на обработку персональных данных.');
           consentInput.focus();
           return;
         }
@@ -3436,17 +3401,13 @@
 
           if (attendance === 'yes') {
             if (isDuplicate) {
-              formMessage.textContent = 'Вы уже зарегистрированы! Ваш сохраненный код билета: ' + payload.ticketCode;
-              showToast('Возвращен ваш билет: ' + payload.ticketCode, 4500);
+              showFormStatus('Вы уже зарегистрированы! Ваш сохраненный код билета: ' + payload.ticketCode);
             } else {
-              formMessage.textContent = 'Участие подтверждено! Ваш персональный код билета: ' + payload.ticketCode;
-              showToast('Ваш билет сформирован: ' + payload.ticketCode, 4500);
+              showFormStatus('Участие подтверждено! Ваш персональный код билета: ' + payload.ticketCode);
             }
           } else {
-            formMessage.textContent = 'Спасибо за ответ! Информация сохранена.';
-            showToast('Ваш ответ сохранен', 3500);
+            showFormStatus('Спасибо за ответ! Информация сохранена.');
           }
-          formMessage.classList.add('show');
 
           setTimeout(function() {
             var ticketSection = document.getElementById('ticket');
