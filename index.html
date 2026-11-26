@@ -1607,6 +1607,139 @@
       z-index: 2;
     }
 
+    /* Карусель рассадки */
+    #seating .ticket-block {
+      max-width: 680px;
+    }
+
+    .seating-carousel {
+      position: relative;
+      z-index: 2;
+      margin-top: 12px;
+    }
+
+    .seating-slides {
+      position: relative;
+      width: 100%;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.8);
+      touch-action: pan-y;
+    }
+
+    .seating-slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(0.985);
+      transition: opacity 0.45s ease, transform 0.45s ease, visibility 0.45s ease;
+      pointer-events: none;
+    }
+
+    .seating-slide.active {
+      position: relative;
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1);
+      pointer-events: auto;
+    }
+
+    .seating-slide img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 4px;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .seating-nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(10, 6, 12, 0.82);
+      border: 1px solid var(--gold);
+      color: var(--gold-light);
+      font-family: var(--font-30s);
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.85), 0 0 12px rgba(212, 175, 55, 0.25);
+    }
+
+    .seating-nav-btn:hover,
+    .seating-nav-btn:focus-visible {
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      color: var(--bg-deep);
+      outline: none;
+      box-shadow: 0 0 20px rgba(243, 220, 153, 0.65);
+    }
+
+    .seating-nav-btn.prev {
+      left: 12px;
+    }
+
+    .seating-nav-btn.next {
+      right: 12px;
+    }
+
+    .seating-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .seating-dots {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .seating-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: rgba(212, 175, 55, 0.28);
+      border: 1px solid rgba(212, 175, 55, 0.65);
+      cursor: pointer;
+      padding: 0;
+      transition: all 0.25s ease;
+    }
+
+    .seating-dot:hover,
+    .seating-dot:focus-visible {
+      background: rgba(243, 220, 153, 0.65);
+      outline: none;
+    }
+
+    .seating-dot.active {
+      background: var(--gold-light);
+      border-color: var(--gold-bright);
+      transform: scale(1.25);
+      box-shadow: 0 0 10px rgba(243, 220, 153, 0.7);
+    }
+
+    .seating-counter {
+      font-family: var(--font-30s);
+      font-size: 15px;
+      color: var(--gold-light);
+      letter-spacing: 3px;
+      -webkit-text-stroke: 0.35px var(--gold-light);
+    }
+
     /* Оформление выданного именного билета */
     .issued-ticket {
       position: relative;
@@ -1861,6 +1994,9 @@
       .hotspot-label { font-size: 10px; letter-spacing: 1.5px; }
       .invitation-text { padding: 32px 24px; }
       .consent-modal-card { padding: 26px 20px 22px; }
+      .seating-nav-btn { width: 34px; height: 34px; font-size: 20px; }
+      .seating-nav-btn.prev { left: 8px; }
+      .seating-nav-btn.next { right: 8px; }
       .envelope-photo-scene::before,
       .time-block::before,
       .event-info-item::before,
@@ -2320,11 +2456,11 @@
         <div class="contest-categories">
           <div class="category-card">
             <div class="category-name">Женский образ</div>
-            <div class="category-prize">призовой фонд <strong>50 000 ₽</strong></div>
+            <div class="category-prize">призовой фонд 50.000 ₽ <strong></strong></div>
           </div>
           <div class="category-card">
             <div class="category-name">Мужской образ</div>
-            <div class="category-prize">призовой фонд <strong>50 000 ₽</strong></div>
+            <div class="category-prize">призовой фонд 50.000 ₽ <strong></strong></div>
           </div>
           <div class="category-card special">
             <div class="category-name">Призы за лучший головной убор </div>
@@ -2418,11 +2554,43 @@
       <div class="ticket-block" role="status" aria-live="polite">
         <div class="ticket-title"> </div>
         <p class="ticket-message"></p>
-        <img class="voting-gift-img"
-             style="margin-top: 24px;"
-             src="./photo6.jpg"
-             onerror="if(!this.dataset.ext){this.dataset.ext='jpeg';this.src='./photo6.jpeg';}else if(this.dataset.ext==='jpeg'){this.dataset.ext='png';this.src='./photo6.png';}else if(this.dataset.ext==='png'){this.dataset.ext='webp';this.src='./photo6.webp';}"
-             alt="План расположения мест для шикарных дам и галантных кавалеров">
+        <div class="seating-carousel" id="seatingCarousel" aria-label="Карусель плана рассадки гостей">
+          <div class="seating-slides" id="seatingSlides">
+            <div class="seating-slide active">
+              <img src="./a1.jpg"
+                   onerror="if(!this.dataset.ext){this.dataset.ext='jpeg';this.src='./a1.jpeg';}else if(this.dataset.ext==='jpeg'){this.dataset.ext='png';this.src='./a1.png';}else if(this.dataset.ext==='png'){this.dataset.ext='webp';this.src='./a1.webp';}"
+                   alt="План расположения мест: Стол № 1 Эффектные, Стол № 2 Роскошные, Стол № 3 Элегантные, Стол № 4 Стильные, Стол № 5 Изысканные">
+            </div>
+            <div class="seating-slide">
+              <img src="./a2.jpg"
+                   onerror="if(!this.dataset.ext){this.dataset.ext='jpeg';this.src='./a2.jpeg';}else if(this.dataset.ext==='jpeg'){this.dataset.ext='png';this.src='./a2.png';}else if(this.dataset.ext==='png'){this.dataset.ext='webp';this.src='./a2.webp';}"
+                   alt="План расположения мест: Стол № 6 Блистательные, Стол № 7 Загадочные, Стол № 8 Очаровательные, Стол № 9 Гламурные">
+            </div>
+            <div class="seating-slide">
+              <img src="./a3.jpg"
+                   onerror="if(!this.dataset.ext){this.dataset.ext='jpeg';this.src='./a3.jpeg';}else if(this.dataset.ext==='jpeg'){this.dataset.ext='png';this.src='./a3.png';}else if(this.dataset.ext==='png'){this.dataset.ext='webp';this.src='./a3.webp';}"
+                   alt="План расположения мест: Стол № 10 Зажигательные, Стол № 11 Экстравагантные, Стол № 12 Ослепительные, Стол № 13 Грациозные">
+            </div>
+            <div class="seating-slide">
+              <img src="./photo6.jpg"
+                   onerror="if(!this.dataset.ext){this.dataset.ext='jpeg';this.src='./photo6.jpeg';}else if(this.dataset.ext==='jpeg'){this.dataset.ext='png';this.src='./photo6.png';}else if(this.dataset.ext==='png'){this.dataset.ext='webp';this.src='./photo6.webp';}"
+                   alt="План расположения мест для шикарных дам и галантных кавалеров">
+            </div>
+          </div>
+
+          <button type="button" class="seating-nav-btn prev" id="seatingPrev" aria-label="Предыдущий слайд">&#8249;</button>
+          <button type="button" class="seating-nav-btn next" id="seatingNext" aria-label="Следующий слайд">&#8250;</button>
+
+          <div class="seating-controls">
+            <div class="seating-dots" id="seatingDots" role="tablist" aria-label="Выбор слайда рассадки">
+              <button type="button" class="seating-dot active" data-slide="0" aria-label="Слайд 1"></button>
+              <button type="button" class="seating-dot" data-slide="1" aria-label="Слайд 2"></button>
+              <button type="button" class="seating-dot" data-slide="2" aria-label="Слайд 3"></button>
+              <button type="button" class="seating-dot" data-slide="3" aria-label="Слайд 4"></button>
+            </div>
+            <span class="seating-counter" id="seatingCounter">1 / 4</span>
+          </div>
+        </div>
       </div>
     </section>
   </main>
@@ -3521,6 +3689,75 @@
           completeRegistration(false, true);
         }
       });
+
+      /* ===== КАРУСЕЛЬ В БЛОКЕ «РАССАДКА» ===== */
+      var seatingCarousel = document.getElementById('seatingCarousel');
+      if (seatingCarousel) {
+        var seatingSlides = seatingCarousel.querySelectorAll('.seating-slide');
+        var seatingDots = seatingCarousel.querySelectorAll('.seating-dot');
+        var seatingPrev = document.getElementById('seatingPrev');
+        var seatingNext = document.getElementById('seatingNext');
+        var seatingCounter = document.getElementById('seatingCounter');
+        var seatingSlidesWrap = document.getElementById('seatingSlides');
+        var currentSeatingIndex = 0;
+        var totalSeatingSlides = seatingSlides.length;
+
+        function showSeatingSlide(index) {
+          currentSeatingIndex = (index + totalSeatingSlides) % totalSeatingSlides;
+          for (var i = 0; i < totalSeatingSlides; i++) {
+            seatingSlides[i].classList.toggle('active', i === currentSeatingIndex);
+            if (seatingDots[i]) {
+              seatingDots[i].classList.toggle('active', i === currentSeatingIndex);
+            }
+          }
+          if (seatingCounter) {
+            seatingCounter.textContent = (currentSeatingIndex + 1) + ' / ' + totalSeatingSlides;
+          }
+        }
+
+        if (seatingPrev) {
+          seatingPrev.addEventListener('click', function() {
+            showSeatingSlide(currentSeatingIndex - 1);
+          });
+        }
+
+        if (seatingNext) {
+          seatingNext.addEventListener('click', function() {
+            showSeatingSlide(currentSeatingIndex + 1);
+          });
+        }
+
+        seatingDots.forEach(function(dot) {
+          dot.addEventListener('click', function() {
+            var idx = parseInt(dot.getAttribute('data-slide'), 10);
+            if (!isNaN(idx)) {
+              showSeatingSlide(idx);
+            }
+          });
+        });
+
+        if (seatingSlidesWrap) {
+          var touchStartX = 0;
+          seatingSlidesWrap.addEventListener('touchstart', function(e) {
+            if (e.touches && e.touches.length > 0) {
+              touchStartX = e.touches[0].clientX;
+            }
+          }, { passive: true });
+
+          seatingSlidesWrap.addEventListener('touchend', function(e) {
+            if (e.changedTouches && e.changedTouches.length > 0) {
+              var diffX = e.changedTouches[0].clientX - touchStartX;
+              if (Math.abs(diffX) > 40) {
+                if (diffX < 0) {
+                  showSeatingSlide(currentSeatingIndex + 1);
+                } else {
+                  showSeatingSlide(currentSeatingIndex - 1);
+                }
+              }
+            }
+          }, { passive: true });
+        }
+      }
 
     })();
   </script>
